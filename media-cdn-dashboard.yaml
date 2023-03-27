@@ -1,0 +1,349 @@
+displayName: Media Edge Metrics
+mosaicLayout:
+  columns: 12
+  tiles:
+  - height: 4
+    widget:
+      title: Egress Rate by Cache Result
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 120s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/response_bytes_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+              secondaryAggregation:
+                crossSeriesReducer: REDUCE_SUM
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_MAX
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 12
+  - height: 4
+    widget:
+      title: Requests by Status
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 120s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                groupByFields:
+                - metric.label."response_code_class"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+              secondaryAggregation:
+                crossSeriesReducer: REDUCE_MEAN
+                groupByFields:
+                - metric.label."response_code_class"
+                perSeriesAligner: ALIGN_MEAN
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    yPos: 8
+  - height: 4
+    widget:
+      title: Error Count (Non-2xx Requests)
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 120s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_MEAN
+                groupByFields:
+                - metric.label."response_code"
+                perSeriesAligner: ALIGN_SUM
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule" metric.label."response_code_class"!=monitoring.regex.full_match("2xx")
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    xPos: 6
+    yPos: 8
+  - height: 4
+    widget:
+      title: Requests by Client Location
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                groupByFields:
+                - metric.label."client_country"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count_by_client"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+              secondaryAggregation:
+                crossSeriesReducer: REDUCE_MEAN
+                groupByFields:
+                - metric.label."client_country"
+                perSeriesAligner: ALIGN_MEAN
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    yPos: 12
+  - height: 4
+    widget:
+      title: HTTP TTLB (50th) for 2xx Responses
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_PERCENTILE_50
+                groupByFields:
+                - metric.label."response_code_class"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/http_ttlb"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule" metric.label."response_code_class"="2xx"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    xPos: 6
+    yPos: 12
+  - height: 4
+    widget:
+      title: HTTP TTLB (50th) by HTTP Protocol
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: STACKED_BAR
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_PERCENTILE_50
+                groupByFields:
+                - metric.label."protocol"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/http_ttlb_by_client"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    xPos: 6
+    yPos: 16
+  - height: 4
+    widget:
+      title: HTTP TTLB (50th) by TLS Version
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: LINE
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_PERCENTILE_50
+                groupByFields:
+                - metric.label."tls_version"
+                - metric.label."protocol"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/http_ttlb"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    yPos: 16
+  - height: 4
+    widget:
+      title: HTTP TTFB (50th) by HTTP Protocol
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: LINE
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_PERCENTILE_50
+                groupByFields:
+                - metric.label."protocol"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/http_ttfb_by_client"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    xPos: 6
+    yPos: 20
+  - height: 4
+    widget:
+      title: Total latencies [95TH PERCENTILE]
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: LINE
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_PERCENTILE_95
+                groupByFields:
+                - metric.label."tls_version"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/total_latencies"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 6
+    yPos: 20
+  - height: 4
+    widget:
+      title: Frontend RTT (50th) by Client Country
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 600s
+          plotType: LINE
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                crossSeriesReducer: REDUCE_MEAN
+                groupByFields:
+                - metric.label."client_country"
+                perSeriesAligner: ALIGN_DELTA
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/frontend_rtt_by_client"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 12
+    yPos: 24
+  - height: 4
+    widget:
+      title: Request Rate by Cache Result
+      xyChart:
+        chartOptions:
+          mode: COLOR
+        dataSets:
+        - minAlignmentPeriod: 60s
+          plotType: STACKED_AREA
+          timeSeriesQuery:
+            timeSeriesFilter:
+              aggregation:
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+              secondaryAggregation:
+                crossSeriesReducer: REDUCE_MEAN
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_MEAN
+        timeshiftDuration: 0s
+        yAxis:
+          label: y1Axis
+          scale: LINEAR
+    width: 12
+    yPos: 4
+  - height: 4
+    widget:
+      title: Cache Hit Ratio
+      scorecard:
+        timeSeriesQuery:
+          timeSeriesFilterRatio:
+            numerator:
+              aggregation:
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule" metric.label."cache_result"="hit"
+            denominator:
+              aggregation:
+                groupByFields:
+                - metric.label."cache_result"
+                perSeriesAligner: ALIGN_RATE
+              filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+        timeshiftDuration: 0s
+    width: 6
+    yPos: 28
+  - height: 4
+    widget:
+      title: Total Egress Bytes
+      scorecard:
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              groupByFields:
+              - resource.label."project_id"
+              perSeriesAligner: ALIGN_RATE
+            filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/response_bytes_count"
+              resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+          timeSeriesFilterAggregate:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              perSeriesAligner: ALIGN_RATE
+        timeshiftDuration: 0s
+    width: 6
+    yPos: 28
+  - height: 4
+    widget:
+      title: Total Request Count
+      scorecard:
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              groupByFields:
+              - resource.label."project_id"
+              perSeriesAligner: ALIGN_RATE
+            filter: metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+              resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+          timeSeriesFilterAggregate:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              perSeriesAligner: ALIGN_RATE
+        timeshiftDuration: 0s
+    width: 6
+    yPos: 32
