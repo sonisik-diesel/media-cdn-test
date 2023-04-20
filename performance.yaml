@@ -110,4 +110,3 @@ mosaicLayout:
           yAxis:
             label: y1Axis
             scale: LINEAR
-          width: 6
