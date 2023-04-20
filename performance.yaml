@@ -3,6 +3,7 @@ mosaicLayout:
   columns: 12
   tiles:
     - height: 4
+      width: 6
       widget:
         title: Cache Hit Ratio
         xyChart:
@@ -30,8 +31,8 @@ mosaicLayout:
           yAxis:
             label: y1Axis
             scale: LINEAR
-      width: 6
     - height: 4
+      width: 6
       widget:
         title: Cache Miss Ratio
         xyChart:
@@ -59,8 +60,8 @@ mosaicLayout:
           yAxis:
             label: y1Axis
             scale: LINEAR
-      width: 6
     - height: 4
+      width: 6
       widget:
         title: Cache Hit and Miss Latency
         xyChart:
@@ -86,8 +87,8 @@ mosaicLayout:
           yAxis:
             label: y1Axis
             scale: LINEAR
-      width: 6
     - height: 4
+      width: 6
       widget:
         title: Origin Response Time
         xyChart:
