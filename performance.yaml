@@ -60,7 +60,6 @@ mosaicLayout:
             label: y1Axis
             scale: LINEAR
       width: 6
-      xPos: 6
     - height: 4
       widget:
         title: Cache Hit and Miss Latency
@@ -88,7 +87,6 @@ mosaicLayout:
             label: y1Axis
             scale: LINEAR
       width: 6
-      yPos: 4
     - height: 4
       widget:
         title: Origin Response Time
@@ -111,6 +109,4 @@ mosaicLayout:
           yAxis:
             label: y1Axis
             scale: LINEAR
-        width: 6
-        yPos: 4
-        xPos: 6
+          width: 6
