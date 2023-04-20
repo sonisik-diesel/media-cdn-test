@@ -1,0 +1,116 @@
+displayName: CDN Performance Metrics
+mosaicLayout:
+  columns: 12
+  tiles:
+    - height: 4
+      widget:
+        title: Cache Hit Ratio
+        xyChart:
+          chartOptions:
+            mode: COLOR
+          dataSets:
+            - minAlignmentPeriod: 60s
+              plotType: LINE
+              timeSeriesQuery:
+                timeSeriesFilter:
+                  aggregation:
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_RATE
+                  filter: >-
+                    metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                    resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+                    metric.label."cache_result"="hit"
+                  secondaryAggregation:
+                    crossSeriesReducer: REDUCE_SUM
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_MEAN
+          timeshiftDuration: 0s
+          yAxis:
+            label: y1Axis
+            scale: LINEAR
+      width: 6
+    - height: 4
+      widget:
+        title: Cache Miss Ratio
+        xyChart:
+          chartOptions:
+            mode: COLOR
+          dataSets:
+            - minAlignmentPeriod: 60s
+              plotType: LINE
+              timeSeriesQuery:
+                timeSeriesFilter:
+                  aggregation:
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_RATE
+                  filter: >-
+                    metric.type="edgecache.googleapis.com/edge_cache_route_rule/request_count"
+                    resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+                    metric.label."cache_result"="miss"
+                  secondaryAggregation:
+                    crossSeriesReducer: REDUCE_SUM
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_MEAN
+          timeshiftDuration: 0s
+          yAxis:
+            label: y1Axis
+            scale: LINEAR
+      width: 6
+      xPos: 6
+    - height: 4
+      widget:
+        title: Cache Hit and Miss Latency
+        xyChart:
+          chartOptions:
+            mode: COLOR
+          dataSets:
+            - minAlignmentPeriod: 60s
+              plotType: LINE
+              timeSeriesQuery:
+                timeSeriesFilter:
+                  aggregation:
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_MEAN
+                  filter: >-
+                    metric.type="edgecache.googleapis.com/edge_cache_route_rule/http_ttfb"
+                    resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+                  secondaryAggregation:
+                    groupByFields:
+                      - metric.label."cache_result"
+                    perSeriesAligner: ALIGN_MEAN
+          timeshiftDuration: 0s
+          yAxis:
+            label: y1Axis
+            scale: LINEAR
+      width: 6
+      yPos: 4
+    - height: 4
+      widget:
+        title: Origin Response Time
+        xyChart:
+          chartOptions:
+            mode: COLOR
+          dataSets:
+            - minAlignmentPeriod: 60s
+              plotType: LINE
+              timeSeriesQuery:
+                timeSeriesFilter:
+                  aggregation:
+                    perSeriesAligner: ALIGN_MEAN
+                  filter: >-
+                    metric.type="edgecache.googleapis.com/edge_cache_route_rule/origin_response_time"
+                    resource.type="edgecache.googleapis.com/EdgeCacheRouteRule"
+                  secondaryAggregation:
+                    perSeriesAligner: ALIGN_MEAN
+          timeshiftDuration: 0s
+          yAxis:
+            label: y1Axis
+            scale: LINEAR
+        width: 6
+        yPos: 4
+        xPos: 6
